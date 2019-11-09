@@ -1,7 +1,38 @@
 import moment from 'moment';
 
+// const BASE_URL = 'https://yarnone.eu-central-1.elasticbeanstalk.com'
+// const BASE_URL = 'http://localhost:8081'
+const BASE_URL = 'https://36afdfb5.eu.ngrok.io'
+
 class ApiClient {
 
+  _makeRequest = async (endpoint, { method, body } = {}) => {
+    try {
+      const response = await fetch(BASE_URL + endpoint, {
+        method: method || 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: body && JSON.stringify(body),
+      });
+
+
+      return response.json();
+
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  lightCreelSides = async (machineName, off = false) => {
+    return this._makeRequest('/lightCreelSides', {
+      method: 'POST',
+      body: {
+        machine_name: machineName,
+        switch_off: off,
+      }
+    })
+  }
   getCreelSides = async () => {
     await new Promise((resolve) => {
       setTimeout(resolve, 2000)

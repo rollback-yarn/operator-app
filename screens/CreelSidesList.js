@@ -9,7 +9,7 @@ import { AppText } from '../components/AppText';
 import { Ionicons } from '@expo/vector-icons';
 
 
-export default function LinksScreen({ navigation: { navigate }}) {
+export default function LinksScreen({ navigation: { navigate } }) {
 
   const [refreshing, setRefreshing] = useState(false);
   const [creelSides, setCreelSides] = useContext(CreelSideContext);
@@ -23,74 +23,84 @@ export default function LinksScreen({ navigation: { navigate }}) {
 
   }, []);
   return (
-    <ScrollView
+    <View
       style={styles.container}
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={loadCreelSides}
-        />
-      }
     >
-      {creelSides.map(creelSide => {
-        return (
-          <View
-            key={creelSide.id}
-            style={styles.creelListItem}
-          >
-
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={loadCreelSides}
+          />
+        }
+      >
+        {creelSides.map(creelSide => {
+          return (
             <View
-              style={styles.creelInfo}
+              key={creelSide.id}
+              style={styles.creelListItem}
             >
 
               <View
-                style={styles.firstInfo}
+                style={styles.creelInfo}
               >
-                <AppText
-                  style={styles.created}
+
+                <View
+                  style={styles.firstInfo}
                 >
-                  {moment(creelSide.created_at, 'X').format('L LTS')}
-                </AppText>
-                <AppText
-                  style={styles.machine}
-                >
-                  {creelSide.machine_name}
-                </AppText>
-              </View>
-              <View style={styles.where}>
-                <AppText style={styles.whereText}>
-                  {creelSide.creel_id + ' / ' + creelSide.side}
-                </AppText>
+                  <AppText
+                    style={styles.created}
+                  >
+                    {moment(creelSide.created_at, 'X').format('L LTS')}
+                  </AppText>
+                  <AppText
+                    style={styles.machine}
+                  >
+                    {creelSide.machine_name}
+                  </AppText>
+                </View>
+                <View style={styles.where}>
+                  <AppText style={styles.whereText}>
+                    {creelSide.creel_id + ' / ' + creelSide.side}
+                  </AppText>
+                </View>
+
               </View>
 
+              <TouchableOpacity
+                onPress={() => {
+                  navigate('FindCreels', { machine_name: creelSide.machine_name })
+                }}
+                style={styles.creelCTA}
+              >
+                <Ionicons
+                  name={'ios-radio'}
+                  color={'white'}
+                  size={26}
+                />
+              </TouchableOpacity>
             </View>
-
-            <TouchableOpacity
-              onPress={() => {
-                navigate('FindCreels', { machine_name: creelSide.machine_name})
-              }}
-              style={styles.creelCTA}
-            >
-              <Ionicons
-                name={'ios-radio'}
-                color={'white'}
-                size={26}
-              />
-            </TouchableOpacity>
-          </View>
-        );
-      })}
-    </ScrollView>
+          );
+        })}
+      </ScrollView>
+    </View>
   );
 }
 
 LinksScreen.navigationOptions = {
+  // header: null,
   title: 'All Creels',
+  // headerStyle: {
+  //   backgroundColor: COLORS.GREY,
+  //   borderBottomWidth: 0,
+  // },
+
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // paddingTop: 60,
     paddingTop: 15,
     backgroundColor: COLORS.GREY,
   },

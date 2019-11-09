@@ -1,5 +1,14 @@
 import React, { useCallback, useContext, useMemo, useState, useEffect } from 'react';
-import { ScrollView, StyleSheet, RefreshControl, View, Text, TouchableOpacity, Picker } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  RefreshControl,
+  View,
+  Text,
+  TouchableOpacity,
+  Picker,
+  ActivityIndicator
+} from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import { CreelSideContext } from '../contexts/CreelSideContext';
 import apiClient from '../services/apiClient'
@@ -14,6 +23,7 @@ export default function FindCreels({ navigation }) {
 
   const [selectedMachine, setSelectedMachine] = useState(null);
   const [showing, setShowing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { params: routeParams } = navigation;
   const machineNameFromRoute = routeParams && routeParams.machine_name;
@@ -44,10 +54,15 @@ export default function FindCreels({ navigation }) {
   return (
     <View style={styles.container}>
       <AppText
-        numberOfLines={3}
+        numberOfLines={5}
         style={{
           padding: 10,
-          fontSize: 18,
+          fontSize: 20,
+          marginTop: 20,
+          textAlign: 'center',
+          color: '#4e4e4e'
+          // color: COLORS.RED,
+          // opacity: 0.4
         }}
       >Select One Machine Below. When you click on "Find Bobbles", all Carts that contain
         Bobbles produced by the
@@ -55,14 +70,14 @@ export default function FindCreels({ navigation }) {
       </AppText>
       <View
         style={{
-          marginTop: 40,
+          marginTop: 70,
         }}
       >
         <Picker
           selectedValue={selectedMachine}
           enabled={!showing}
           style={{
-            height: 50,
+            height: 100,
           }}
           onValueChange={(itemValue, itemIndex) =>
             setSelectedMachine(itemValue)
@@ -91,13 +106,22 @@ export default function FindCreels({ navigation }) {
           </AppText>
         </Fade>
         <TouchableOpacity
-          onPress={() => {
+          onPress={async () => {
+            setLoading(true)
+            await Promise.all([
+              apiClient.lightCreelSides(selectedMachine, showing),
+              new Promise(res => {
+                setTimeout(res, 500)
+              })
+
+            ])
+            setLoading(false)
             setShowing(!showing)
+
           }}
           style={{
             flexDirection: 'row',
             backgroundColor: COLORS.RED,
-            marginBottom: 20,
             padding: 20,
             alignItems: 'center',
             height: 80,
@@ -120,6 +144,12 @@ export default function FindCreels({ navigation }) {
               'Turn off lights' :
               `Show Bobbins produced by\n${selectedMachine}`}
           </AppText>
+          {loading && (
+            <ActivityIndicator
+              size={'small'}
+              color={'white'}
+              style={{ marginLeft: 'auto', marginRight: 15 }}
+            />)}
         </TouchableOpacity>
       </View>
     </View>
