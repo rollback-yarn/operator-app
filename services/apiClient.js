@@ -1,9 +1,11 @@
-import moment from 'moment';
+import { DUMMY_CREEL_SIDES, NEW_CREEL_SIDES } from './dummy';
 
 // const BASE_URL = 'https://yarnone.eu-central-1.elasticbeanstalk.com'
 // const BASE_URL = 'http://localhost:8081'
 const BASE_URL = 'https://36afdfb5.eu.ngrok.io'
 
+
+let creelSidesLoad = 0;
 class ApiClient {
 
   _makeRequest = async (endpoint, { method, body } = {}) => {
@@ -33,78 +35,18 @@ class ApiClient {
       }
     })
   }
+
   getCreelSides = async () => {
-    await new Promise((resolve) => {
-      setTimeout(resolve, 2000)
-    });
-    return [
-      {
-        id: 'aaa',
-        machine_name: 'Machine A',
-        side: 'A',
-        creel_id: 'Abt 1122',
-        created_at: moment().format('X'),
-      },
-      {
-        id: 'abb',
-        machine_name: 'Machine A',
-        side: 'B',
-        creel_id: 'Abt 1122',
-        created_at: moment().format('X'),
-
-      },
-      {
-        id: 'abc',
-        machine_name: 'Machine A',
-        side: 'B',
-        creel_id: 'Abt 1121',
-        created_at: moment().format('X'),
-
-      }, {
-        id: 'abd',
-        machine_name: 'Machine B',
-        side: 'B',
-        creel_id: 'Abt 1121',
-        created_at: moment().format('X'),
-
-      }, {
-        id: 'abe',
-        machine_name: 'Machine B',
-        side: 'B',
-        creel_id: 'Abt 1121',
-        created_at: moment().format('X'),
-
-      }, {
-        id: 'abf',
-        machine_name: 'Machine C',
-        side: 'B',
-        creel_id: 'Abt 1121',
-        created_at: moment().format('X'),
-
-      }, {
-        id: 'abg',
-        machine_name: 'Machine D',
-        side: 'B',
-        creel_id: 'Abt 1121',
-        created_at: moment().format('X'),
-
-      }, {
-        id: 'abh',
-        machine_name: 'Machine E',
-        side: 'B',
-        creel_id: 'Abt 1121',
-        created_at: moment().format('X'),
-
-      }, {
-        id: 'abi',
-        machine_name: 'Machine F',
-        side: 'B',
-        creel_id: 'Abt 1121',
-        created_at: moment().format('X'),
-
-      },
-
-    ]
+    creelSidesLoad++;
+    if (creelSidesLoad > 1) {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1500)
+      });
+    }
+    if (creelSidesLoad < 2) {
+      return DUMMY_CREEL_SIDES;
+    }
+    return [...NEW_CREEL_SIDES, ...DUMMY_CREEL_SIDES];
   }
 }
 
