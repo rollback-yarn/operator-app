@@ -76,13 +76,16 @@ export const NEW_CREEL_SIDES = [
     side: 'A',
     creel_id: 'Abt 1122',
     created_at: moment().format('X'),
+    new: true,
   },
   {
     id: 'bbb',
     machine_name: 'Machine D',
-    side: 'B',
+    side: 'D',
     creel_id: 'Abt 1122',
     created_at: moment().format('X'),
+    new: true,
+
 
   },
 ]

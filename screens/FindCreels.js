@@ -25,7 +25,7 @@ export default function FindCreels({ navigation }) {
   const [showing, setShowing] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { params: routeParams } = navigation;
+  const { state: { params: routeParams } } = navigation;
   const machineNameFromRoute = routeParams && routeParams.machine_name;
   useEffect(() => {
     if (machineNameFromRoute) {

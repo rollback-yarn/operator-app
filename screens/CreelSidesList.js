@@ -35,10 +35,15 @@ export default function LinksScreen({ navigation: { navigate } }) {
         }
       >
         {creelSides.map(creelSide => {
+          const { new: neww } = creelSide;
           return (
             <View
               key={creelSide.id}
-              style={styles.creelListItem}
+              style={{
+                ...styles.creelListItem,
+                borderColor: neww ? COLORS.RED : 'transparent',
+                borderWidth: 2,
+              }}
             >
 
               <View
