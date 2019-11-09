@@ -6,50 +6,52 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import CreelSidesList from '../screens/CreelSidesList';
+import FindCreels from '../screens/FindCreels';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {},
 });
 
-const HomeStack = createStackNavigator(
+const CreelSideListStack = createStackNavigator(
   {
-    Home: HomeScreen,
+    CreelSidesList: CreelSidesList,
   },
   config
 );
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+CreelSideListStack.navigationOptions = {
+  tabBarLabel: 'List',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-list${focused ? '' : ''}`
+          : 'md-list'
       }
     />
   ),
 };
 
-HomeStack.path = '';
+CreelSideListStack.path = '';
 
-const LinksStack = createStackNavigator(
+const FindCreelsStack = createStackNavigator(
   {
-    Links: LinksScreen,
+    FindCreels: FindCreels,
   },
   config
 );
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+FindCreelsStack.navigationOptions = {
+  tabBarLabel: 'Find',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-radio' : 'md-radio'} />
   ),
 };
 
-LinksStack.path = '';
+FindCreelsStack.path = '';
 
 const SettingsStack = createStackNavigator(
   {
@@ -68,8 +70,8 @@ SettingsStack.navigationOptions = {
 SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
+  CreelSideListStack,
+  FindCreelsStack,
   SettingsStack,
 });
 

@@ -6,6 +6,8 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import AppNavigator from './navigation/AppNavigator';
+import { CreelSideContextProvider } from './contexts/CreelSideContext';
+import OperatorRoot from './OperatorRoot';
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -21,9 +23,11 @@ export default function App(props) {
   } else {
     return (
       <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <AppNavigator />
+        <CreelSideContextProvider initialValue={[]}>
+          <OperatorRoot />
+        </CreelSideContextProvider>
       </View>
+
     );
   }
 }
@@ -40,6 +44,7 @@ async function loadResourcesAsync() {
       // We include SpaceMono because we use it in HomeScreen.js. Feel free to
       // remove this if you are not using it in your app
       'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+      'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
     }),
   ]);
 }
