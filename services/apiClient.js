@@ -1,8 +1,8 @@
 import { DUMMY_CREEL_SIDES, NEW_CREEL_SIDES } from './dummy';
 
-// const BASE_URL = 'https://yarnone.eu-central-1.elasticbeanstalk.com'
+const BASE_URL = 'http://yarnone.eu-central-1.elasticbeanstalk.com'
 // const BASE_URL = 'http://localhost:8081'
-const BASE_URL = 'https://36afdfb5.eu.ngrok.io'
+// const BASE_URL = 'https://36afdfb5.eu.ngrok.io'
 
 
 let creelSidesLoad = 0;
